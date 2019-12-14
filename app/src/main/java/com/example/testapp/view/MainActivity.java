@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
   NetworkData networkData;
   RecyclerView recyclerView;
   LinearLayoutManager linearLayoutManager;
+    Toolbar toolbar;
   private ProgressBar progressBar;
   private ArrayList<Row> dataList = new ArrayList<>();
   private CompositeDisposable disposable = new CompositeDisposable();
@@ -44,14 +45,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolBar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        Objects.requireNonNull(actionBar).setDisplayHomeAsUpEnabled(false);
+         toolbar = findViewById(R.id.toolBar);
         networkData=new NetworkData();
         recyclerView = findViewById(R.id.rv);
         FloatingActionButton floatingActionButton = findViewById(R.id.fab);
-        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        progressBar = findViewById(R.id.progressbar);
         SettingUpAdapter();
         mainActivityViewModel= ViewModelProviders.of(this).get(MainActivityViewModel.class);
         FetchData();
@@ -59,19 +57,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void FetchData() {
-        mainActivityViewModel.getResponseLiveData().observe( this, responseLiveData -> {
-            if (responseLiveData != null) {
+        if(dataList!=null) {
+            mainActivityViewModel.getResponseLiveData().observe(this, responseLiveData -> {
+                if (responseLiveData != null) {
 
-                progressBar.setVisibility(View.GONE);
-                Log.d("size","Received data list size :"+responseLiveData.getRows().size());
-                for(Row item:responseLiveData.getRows()){
-                    dataList.add(item);
+                    progressBar.setVisibility(View.GONE);
+                    Log.d("size", "Received data list size :" + responseLiveData.getRows().size());
+                    toolbar.setTitle(responseLiveData.getTitle());
+                    setSupportActionBar(toolbar);
+                    for (Row item : responseLiveData.getRows()) {
+                        dataList.add(item);
+                    }
+                    dataAdapter.notifyDataSetChanged();
+
                 }
-                dataAdapter.notifyDataSetChanged();
-
-            }
-            Log.d("TAG", "NUll NULL");
-        });
+                Log.d("TAG", "NUll NULL");
+            });
+        }
+        dataAdapter.notifyDataSetChanged();
     }
 
 
