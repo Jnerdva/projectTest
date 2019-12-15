@@ -64,7 +64,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
                             }
                         })
                         .apply(requestOptions)
-                        .override(20,30)
+                        .override(50,50)
                         .into(holder.ImageIcon);
 
     }
