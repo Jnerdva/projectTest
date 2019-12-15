@@ -1,6 +1,5 @@
 package com.example.testapp.model;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -9,7 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.testapp.model.network.ApiClient;
 import com.example.testapp.model.network.ApiService;
 
-import io.reactivex.Maybe;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,13 +16,13 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class Repository {
     private static Repository util = null;
-    final ApiService apiService;
+    private final ApiService apiService;
 
     private Repository() {
         apiService = ApiClient.getClient().create(ApiService.class);
     }
 
-    public static Repository getInstance(Context context) {
+    public static Repository getInstance() {
         if (util != null) {
             return util;
         }

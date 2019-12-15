@@ -5,10 +5,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,19 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.testapp.R;
 import com.example.testapp.model.NetworkData;
 import com.example.testapp.model.Row;
-import com.example.testapp.model.network.ApiClient;
-import com.example.testapp.model.network.ApiService;
 import com.example.testapp.viewModel.MainActivityViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
   MainActivityViewModel mainActivityViewModel;
@@ -40,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
   private ProgressBar progressBar;
   private ArrayList<Row> dataList = new ArrayList<>();
-  private CompositeDisposable disposable = new CompositeDisposable();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("size", "Received data list size :" + responseLiveData.getRows().size());
                     toolbar.setTitle(responseLiveData.getTitle());
                     setSupportActionBar(toolbar);
-                    for (Row item : responseLiveData.getRows()) {
-                        dataList.add(item);
-                    }
+                    dataList.addAll(responseLiveData.getRows());
                     dataAdapter.notifyDataSetChanged();
 
                 }
@@ -86,11 +72,4 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(dataAdapter);
     }
-
-
- /*   @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        disposable.dispose();
-    }*/
 }

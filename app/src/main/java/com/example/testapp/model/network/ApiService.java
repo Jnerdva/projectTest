@@ -1,7 +1,5 @@
 package com.example.testapp.model.network;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.testapp.model.NetworkData;
 
 import retrofit2.Call;

@@ -29,7 +29,7 @@ import java.util.List;
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder>{
      private List<Row> networkData;
      private Context context;
-    RequestOptions requestOptions;
+     private RequestOptions requestOptions;
 
     public DataAdapter(ArrayList<Row> networkData, Context context) {
         this.networkData = networkData;
